@@ -79,3 +79,19 @@ docker-compose.override.yml
 # Coverage / test reports
 coverage.xml
 pytestdebug.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# VSCode
+.vscode/
