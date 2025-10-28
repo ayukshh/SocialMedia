@@ -95,3 +95,9 @@ ENV/
 
 # VSCode
 .vscode/
+
+venv/
+
+env/
+venv3/
+.venv/
