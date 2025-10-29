@@ -1,8 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+from typing import List, Optional
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .post_schemas import PostRead
+    from .likes_schemas import LikeRead
 
 class UserCreate(BaseModel):
     username: str
-    email: str
+    email: EmailStr
     password: str
 
 class UserOut(BaseModel):
@@ -11,9 +16,18 @@ class UserOut(BaseModel):
         password: str
 
 class config:
-            orm_model=True
+            orm_mode=True
 
 class UserLogin(BaseModel):
                 username: str
                 password: str
-    
+
+class UserRead(UserCreate):
+        id: int
+        posts:Optional[List["PostRead"]]=[]
+        likes:Optional[List["LikeRead"]]=[]
+        comments: Optional[list[LikeRead]]=[] 
+
+UserRead.update_forward_refs()
+PostRead.update_forward_refs()
+LikeRead.update_forward_refs()

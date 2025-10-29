@@ -9,6 +9,6 @@ class Likes(Base):
     user_id=Column(Integer, ForeignKey("user_id"), primary_key=True)
     post_id=Column(Integer, ForeignKey("post_id"), primary_key=True)
 
-user=relationship("User", backref="likes")
+user=relationship("User", back_populates="likes")
 post=relationship("Post", back_populates="likes")
 
