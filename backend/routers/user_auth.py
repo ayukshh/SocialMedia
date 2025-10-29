@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from backend import models, utils, database
-from backend.schemas import schemas 
+from backend.schemas import user_schemas 
 
 
 
@@ -23,8 +23,8 @@ def create_acess_tokens(data: dict):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-@router.post("/register", response_model=schemas.UserOut) 
-def register(user: schemas.UserCreate, db: Session=Depends(database.SessionLocal)):
+@router.post("/register", response_model=user_schemas.UserOut) 
+def register(user: user_schemas.UserCreate, db: Session=Depends(database.SessionLocal)):
     existing_user = db.query(models.Users).filter(models.Users.username == user.username).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="username already taken, try another one")
@@ -37,7 +37,7 @@ def register(user: schemas.UserCreate, db: Session=Depends(database.SessionLocal
     return new_user
 
 @router.post("/login")
-def login(user: schemas.UserLogin, db: Session=Depends(database.SessionLocal)):
+def login(user: user_schemas.UserLogin, db: Session=Depends(database.SessionLocal)):
     db_user=db.query(models.Users).filter(models.Users.username==user.username).first()
     if not db_user or not utils.verify_password(user.password, db_user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid credentials")
