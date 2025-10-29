@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from backend import models, utils, database
+from backend import database, models, utils
 from backend.schemas import user_schemas 
 
 

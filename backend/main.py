@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from . import models, database
+from . import database, models
 from .routers import user_auth
 
 database.Base.metadata.create_all(bind=database.engine)

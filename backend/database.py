@@ -6,4 +6,11 @@ DATABASE_URI="postgresql://ayu:123456@localhost:5432/socialmedia_db"
 engine=create_engine(DATABASE_URI)
 SessionLocal=sessionmaker(autoflush=False,autocommit=False, bind=engine)
 
-Base=declarative_base()
+Base=declarative_base() 
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
