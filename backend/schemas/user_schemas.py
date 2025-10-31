@@ -6,33 +6,32 @@ if TYPE_CHECKING:
     from .post_schemas import PostRead
     from .likes_schemas import LikeRead
 
-class UserCreate(BaseModel):
+class UserBase(BaseModel):
     username: str
+
+    class Config:
+        from_attributes = True  # New name for orm_mode in Pydantic v2
+
+class UserLogin(UserBase):
+    password: str
+
+class UserCreate(UserBase):
     email: EmailStr
     password: str
 
-class UserOut(BaseModel):
+class UserOut(UserBase):
     id: int
-    username: str
-    password: str
+    email: EmailStr
 
     class Config:
-        orm_mode = True  
-    username: str
-    password: str
+        from_attributes = True
 
-class UserRead(UserCreate):
+class UserRead(UserBase):
     id: int
-    posts: Optional[List["PostRead"]] = []  # Using forward reference
-    likes: Optional[List["LikeRead"]] = []  # Using forward reference
-    comments: Optional[List["LikeRead"]] = []  # Using forward reference
+    email: EmailStr
+    posts: Optional[List["PostRead"]] = []
+    likes: Optional[List["LikeRead"]] = []
+    comments: Optional[List["LikeRead"]] = []
 
-# Explicitly set forward references manually for Pydantic v2
-UserRead.update_forward_refs()
-UserRead.__annotations__["posts"] = Optional[List["PostRead"]]
-UserRead.__annotations__["likes"] = Optional[List["LikeRead"]]
-UserRead.__annotations__["comments"] = Optional[List["LikeRead"]]
-
-
-PostRead.update_forward_refs()
-LikeRead.update_forward_refs()
+    class Config:
+        from_attributes = True
