@@ -8,8 +8,7 @@ from backend.schemas import user_schemas
 
 
 router=APIRouter(
-    prefix="/auth", 
-    tags=["authentication"]
+    prefix="/auth",tags=["authentication"]
 )
 
 SECRET_KEY="justme123"
@@ -44,5 +43,3 @@ def login(user: user_schemas.UserLogin, db: Session=Depends(database.SessionLoca
     
     tokens=create_acess_tokens(data={"sub":db_user.username})
     return{"acess_token": tokens, "token_type": "bearer"}
-
-
