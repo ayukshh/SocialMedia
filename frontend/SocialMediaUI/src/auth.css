@@ -1,0 +1,223 @@
+/* Modern and clean design system with glassmorphism */
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: rgba(99, 102, 241, 0.1);
+  --secondary: rgba(248, 250, 252, 0.8);
+  --text: #0b182d;
+  --text-light: #1b2b42;
+  --error: #ef4444;
+  --success: #22c55e;
+  --border: rgba(226, 232, 240, 0.5);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+body, #root {
+  min-height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 50%, #6366f1 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.auth-form {
+  background: var(--glass-bg);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: var(--glass-shadow);
+  width: 100%;
+  max-width: 420px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.auth-form:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+}
+
+.auth-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--secondary);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--text); /* ✅ input text color */
+}
+
+/* Placeholder text color */
+.auth-form input::placeholder {
+  color: rgba(11, 24, 45, 0.6);
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-light);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  margin: 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-form button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.auth-form button:hover::before {
+  left: 100%;
+}
+
+.auth-form button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.auth-form button:active {
+  transform: translateY(0);
+}
+
+.auth-form p {
+  text-align: center;
+  margin: 1rem 0;
+  color: var(--text-light);
+}
+
+.auth-form a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.auth-form a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.auth-form a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.error {
+  color: var(--error);
+  text-align: center;
+  margin: 0.75rem 0;
+  font-size: 0.875rem;
+  padding: 0.75rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+@media (max-width: 500px) {
+  .auth-form {
+    padding: 1.5rem;
+    max-width: 100%;
+    border-radius: 1rem;
+    margin: 1rem;
+  }
+  
+  .auth-form h2 {
+    font-size: 1.5rem;
+  }
+}
