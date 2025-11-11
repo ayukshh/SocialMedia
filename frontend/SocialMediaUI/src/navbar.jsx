@@ -6,6 +6,8 @@ import "./navbar.css";
 export default function Navbar() {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
+ const [q, setQ] = useState("");
+  const [users, setUsers] = useState([]);
 
   const handleLogoClick = () => {
     navigate("/home");
@@ -14,6 +16,14 @@ export default function Navbar() {
   const handleProfileClick = () => {
     navigate("/profile");
   };
+
+  function handleSearch(e) {
+    e.preventDefault();
+    fetch(`http://localhost:8000/users?q=${q}`)
+      .then(res => res.json())
+      .then(data => setUsers(data));
+  }
+
 
   const handleNotificationsClick = () => {
     setShowNotifications(!showNotifications);
@@ -33,22 +43,25 @@ export default function Navbar() {
             className="logo-image"
             onClick={handleLogoClick}
           />
+          
         </div>
+<div className="search-container">
+  <form onSubmit={handleSearch} className="search-form">
+    <input
+      value={q}
+      onChange={e => setQ(e.target.value)}
+      placeholder="Search..."
+      className="search-input"
+    />
+    <button type="submit" className="search-button">🔎</button>
+  </form>
 
-        <div className="search-container" role="search">
-          <form action="/search" method="get" className="search-form">
-            <input
-              type="text"
-              id="query"
-              name="q"
-              placeholder="Search..."
-              className="search-input"
-            />
-            <button type="submit" className="search-button">
-              🔎
-            </button>
-          </form>
-        </div>
+  <ul>
+    {users.map(u => (
+      <li key={u.id}>{u.name} - {u.email}</li>
+    ))}
+  </ul>
+</div>
 
         <div className="navbar-right">
           {/* Clickable Notifications that opens popup */}

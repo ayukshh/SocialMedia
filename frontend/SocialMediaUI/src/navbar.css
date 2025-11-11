@@ -1,9 +1,13 @@
-/* Reset body margin and ensure navbar stays at top */
+/* GLOBAL*/
 body {
   margin: 0;
   padding: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
 }
 
+/* NAVBAR*/
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -56,6 +60,7 @@ body {
   color: #007bff;
 }
 
+/* SEARCH BAR*/
 .search-container {
   position: absolute;
   left: 50%;
@@ -64,15 +69,22 @@ body {
 
 .search-form {
   display: flex;
-  background: white;
+  align-items: center;
+  background: #ffffff;
   border-radius: 25px;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.search-form:focus-within {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  border-color: #007bff;
 }
 
 .search-input {
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   border: none;
   outline: none;
   font-size: 1rem;
@@ -86,13 +98,13 @@ body {
 }
 
 .search-button {
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
   border: none;
   background: transparent;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   font-size: 1.1rem;
   color: #000000;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .search-button:hover {
@@ -100,13 +112,15 @@ body {
   color: #007bff;
 }
 
-/* Add margin to main content to account for fixed navbar */
+/* ===============================
+   MAIN CONTENT
+================================= */
 main {
   margin-top: 80px;
   padding: 2rem;
 }
 
-/* Responsive design */
+/* RESPONSIVE DESIGN*/
 @media (max-width: 768px) {
   .navbar {
     position: relative;
@@ -114,7 +128,7 @@ main {
     gap: 1rem;
     padding: 1rem;
   }
-  
+
   .search-container {
     position: relative;
     left: 0;
@@ -122,27 +136,27 @@ main {
     width: 100%;
     order: 2;
   }
-  
+
   .navbar-right {
     order: 3;
     width: 100%;
     justify-content: center;
   }
-  
+
   .search-form {
     width: 100%;
   }
-  
+
   .search-input {
     width: 100%;
   }
-  
+
   main {
     margin-top: 0;
   }
 }
 
-/* Popup Styles */
+/*POPUP STYLES*/
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -256,8 +270,8 @@ main {
   gap: 0.5rem;
 }
 
-
-.mark-all-read, .view-all {
+.mark-all-read,
+.view-all {
   padding: 0.5rem 1rem;
   border: 1px solid #007bff;
   background: white;
@@ -268,7 +282,8 @@ main {
   font-size: 0.875rem;
 }
 
-.mark-all-read:hover, .view-all:hover {
+.mark-all-read:hover,
+.view-all:hover {
   background: #007bff;
   color: white;
 }
