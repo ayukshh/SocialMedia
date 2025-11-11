@@ -1,10 +1,10 @@
-import axios from 'axios';
+import api from './api.js';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -14,16 +14,18 @@ function Login() {
     setError('');
 
     try {
-      const res = await axios.post('http://******', {      /*prolly 8000 not set till now*/
-        email,
-        password
-      });
+      const res = await api.post('/auth/login', { username, password });
 
       // Save token and redirect
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.access_token);
       navigate('/');
     } catch (err) {
-      setError('Login failed. Please check your email and password.');
+      const detail =
+        err?.response?.data?.detail ||
+        (typeof err?.response?.data === 'string' ? err.response.data : null) ||
+        err?.message ||
+        'Login failed. Please check your credentials.';
+      setError(detail);
     }
   };
 
@@ -35,10 +37,10 @@ function Login() {
         {error && <p className="error">{error}</p>}
         
         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
           required
         />
         

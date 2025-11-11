@@ -1,14 +1,13 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-from datetime import datetime, timezone
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-
 from ..database import Base
 
-class Likes(Base):
-    __tablename__="likes"
-    user_id=Column(Integer, ForeignKey("user_id"), primary_key=True)
-    post_id=Column(Integer, ForeignKey("post_id"), primary_key=True)
 
-user=relationship("User", back_populates="likes")
-post=relationship("Post", back_populates="likes")
+class Like(Base):
+    __tablename__ = "likes"
 
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True)
+
+    user = relationship("User", back_populates="likes")
+    post = relationship("Post", back_populates="likes")

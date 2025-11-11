@@ -1,9 +1,10 @@
-import axios from 'axios';
+import api from './api.js';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
 
 function Register() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,16 +15,18 @@ function Register() {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:********', {     /* prolly localhost 8000*/
-        email,
-        password
-      });
+      const res = await api.post('/auth/register', { username, email, password });
 
       // Save token and redirect
-      localStorage.setItem('token', res.data.token);
-      navigate('/');
+      // After registration, navigate to login
+      navigate('/login');
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      const detail =
+        err?.response?.data?.detail ||
+        (typeof err?.response?.data === 'string' ? err.response.data : null) ||
+        err?.message ||
+        'Registration failed. Please try again.';
+      setError(detail);
     }
   };
 
@@ -33,6 +36,14 @@ function Register() {
         <h2>Register</h2>
         
         {error && <p className="error">{error}</p>}
+        
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+          required
+        />
         
         <input
           type="email"

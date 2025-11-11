@@ -8,14 +8,17 @@ if TYPE_CHECKING:
     from .user_schemas import UserRead
     from .likes_schemas import LikeRead
 
+
 class PostBase(BaseModel):
     content: str
 
     class Config:
-        from_attributes = True  # New name for orm_mode in Pydantic v2
+        from_attributes = True
+
 
 class PostCreate(PostBase):
-    user_id: str
+    user_id: int
+
 
 class PostRead(PostBase):
     id: int
@@ -25,7 +28,4 @@ class PostRead(PostBase):
     likes: Optional[List["LikeRead"]] = []
 
     class Config:
-        from_attributes = True  # New name for orm_mode in Pydantic v2
-
-
-
+        from_attributes = True

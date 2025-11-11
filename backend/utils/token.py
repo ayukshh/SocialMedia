@@ -7,7 +7,6 @@ SECRET_KEY = "justme123"
 ALGORITHM = "HS256"
 
 
-# ---- verify a JWT token ----
 def verify_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -22,7 +21,6 @@ def verify_token(token: str):
         )
 
 
-# ---- get current user manually from Authorization header ----
 def get_current_user(request: Request, db: Session = Depends(database.SessionLocal)):
     auth_header = request.headers.get("Authorization")
 
@@ -32,10 +30,10 @@ def get_current_user(request: Request, db: Session = Depends(database.SessionLoc
             detail="Missing or invalid Authorization header",
         )
 
-    token = auth_header.split(" ")[1]  # Extract token from "Bearer <token>"
+    token = auth_header.split(" ")[1]
     username = verify_token(token)
 
-    user = db.query(models.Users).filter(models.Users.username == username).first()
+    user = db.query(models.User).filter(models.User.username == username).first()
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
