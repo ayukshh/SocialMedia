@@ -3,8 +3,6 @@ from datetime import datetime
 
 
 class CommentCreate(BaseModel):
-    user_id: int
-    post_id: int
     text: str
 
 

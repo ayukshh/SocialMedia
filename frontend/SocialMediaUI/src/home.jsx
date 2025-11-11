@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "./api.js";
 
 function PostsFeed({ token }) {
   const [posts, setPosts] = useState([]);
@@ -9,42 +9,35 @@ function PostsFeed({ token }) {
   }, []);
 
   const fetchPosts = () => {
-    axios.get("http://localhost:8000/posts/")
+    api.get("/posts/")
       .then(res => setPosts(res.data))
-      .catch(err => console.log(err));
+      .catch(err => console.log(err?.response?.data || err.message));
   };
 
   const handleLike = (postId) => {
     if (!token) return; // only token bearer can like
-    axios.post(`http://localhost:8000/likes/${postId}`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    api.post(`/likes/${postId}`)
     .then(() => fetchPosts())
-    .catch(err => console.log(err));
+    .catch(err => console.log(err?.response?.data || err.message));
   };
 
   const handleUnlike = (postId) => {
     if (!token) return;
-    axios.delete(`http://localhost:8000/likes/${postId}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    api.delete(`/likes/${postId}`)
     .then(() => fetchPosts())
-    .catch(err => console.log(err));
+    .catch(err => console.log(err?.response?.data || err.message));
   };
 
   const [newComment, setNewComment] = useState({});
 
   const handleComment = (postId) => {
     if (!token || !newComment[postId]) return;
-    axios.post(`http://localhost:8000/comments/${postId}`, 
-      { text: newComment[postId] }, 
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
+    api.post(`/comments/${postId}`, { text: newComment[postId] })
     .then(() => {
       setNewComment({ ...newComment, [postId]: "" });
       fetchPosts();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err?.response?.data || err.message));
   };
 
   return (

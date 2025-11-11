@@ -2,6 +2,7 @@ import React from "react";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css"; 
+import api from "./api.js";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -19,9 +20,18 @@ export default function Navbar() {
 
   function handleSearch(e) {
     e.preventDefault();
-    fetch(`http://localhost:8000/users?q=${q}`)
-      .then(res => res.json())
-      .then(data => setUsers(data));
+    // Simple search: fetch all users and filter client-side (backend has no ?q)
+    api.get("/users")
+      .then(res => {
+        const list = res.data || [];
+        const query = q.trim().toLowerCase();
+        const filtered = query ? list.filter(u =>
+          (u.username || "").toLowerCase().includes(query) ||
+          (u.email || "").toLowerCase().includes(query)
+        ) : list;
+        setUsers(filtered);
+      })
+      .catch(() => setUsers([]));
   }
 
 
@@ -58,7 +68,7 @@ export default function Navbar() {
 
   <ul>
     {users.map(u => (
-      <li key={u.id}>{u.name} - {u.email}</li>
+      <li key={u.id}>{u.username} - {u.email}</li>
     ))}
   </ul>
 </div>
