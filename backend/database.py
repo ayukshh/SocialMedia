@@ -3,19 +3,22 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Prefer DATABASE_URI from environment; default to local SQLite for easy run
-DATABASE_URI = os.getenv("DATABASE_URI", "sqlite:///./socialmedia.db")
+# PostgreSQL URI: postgresql://USER:PASSWORD@HOST:PORT/DBNAME
+DATABASE_URI = os.getenv(
+    "DATABASE_URI",
+    "postgresql://ayu:123456@localhost:5432/socialmedia_db",  # default database name
+)
 
-# For SQLite, need check_same_thread when used in multi-threaded servers
-engine_args = {}
-if DATABASE_URI.startswith("sqlite"):
-    engine_args["connect_args"] = {"check_same_thread": False}
+# Create SQLAlchemy engine
+engine = create_engine(DATABASE_URI)
 
-engine = create_engine(DATABASE_URI, **engine_args)
+# Create a configured "Session" class
 SessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 
+# Base class for ORM models
 Base = declarative_base()
 
+# Dependency to get DB session
 def get_db():
     db = SessionLocal()
     try:
