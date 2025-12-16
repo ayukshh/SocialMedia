@@ -4,6 +4,7 @@ import Register from './register.jsx';
 import Login from './login.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './layout.jsx';
+import Posts from './posts.jsx';
 
 
 function App() {
@@ -20,6 +21,10 @@ function App() {
         {/* Routes that DON'T use the Layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path='/posts' element={<Posts/>} />
+
+
       </Routes>
     </Router>
   );
